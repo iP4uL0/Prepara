@@ -1,0 +1,154 @@
+.home-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================== HEADER ================== */
+header {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+/* ================== MAIN ================== */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 40px;
+  gap: 50px;
+}
+
+.title h1 {
+  font-size: 64px;
+  line-height: 1.2;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+  color: var(--light-gray);
+}
+
+.subtitle {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-width: 600px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+/* ================== RANKING CARD ================== */
+.ranking {
+  background: rgba(0, 95, 153, 0.85);
+  backdrop-filter: blur(12px);
+  color: var(--white);
+  border-radius: 20px;
+  padding: 25px;
+  width: 300px;
+  min-height: 450px;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ranking h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* ================== LIST ================== */
+#ranking-list {
+  width: 100%;
+}
+
+.ranking-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  min-height: 70px;
+  text-align: center;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ranking-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.nome-container {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.pontuacao-container {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pontos {
+  font-weight: bold;
+  color: #FFD700;
+}
+
+/* ================== RESPONSIVIDADE ================== */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px;
+  }
+
+  .title h1 {
+    font-size: 48px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .ranking {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  header {
+    padding: 15px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title h1 {
+    font-size: 36px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .ranking {
+    padding: 20px;
+    min-height: 350px;
+  }
+
+  .ranking h2 {
+    font-size: 22px;
+  }
+
+  .ranking-item {
+    font-size: 16px;
+    min-height: 60px;
+  }
+}

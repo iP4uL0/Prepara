@@ -1,0 +1,143 @@
+/* Reset e estilos globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  
+  /* Variáveis CSS para cores */
+  --primary-blue: #2baaff;
+  --secondary-blue: #4164ff;
+  --dark-blue: #005f99;
+  --darker-blue: #001C55;
+  --darkest-blue: #00072D;
+  --light-blue: #0E6BA8;
+  --white: #ffffff;
+  --light-gray: #f5f5f5;
+  --dark-gray: #333;
+  --text-dark: #000000;
+  --text-light: #f5f5f5;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+  color: var(--white);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Tema escuro */
+body.dark-theme {
+  background: linear-gradient(135deg, var(--darkest-blue), var(--darker-blue));
+  color: var(--text-light);
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Estilos para botões */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--white);
+  color: var(--dark-blue);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+button:hover {
+  background: var(--dark-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* Tema escuro para botões */
+body.dark-theme button {
+  background-color: var(--light-blue);
+  color: var(--white);
+}
+
+body.dark-theme button:hover {
+  background-color: #3700B3;
+}
+
+/* Estilos para inputs */
+input, textarea, select {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0.8em;
+  font-size: 1em;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 2px rgba(43, 170, 255, 0.2);
+}
+
+/* Estilos para listas */
+ul {
+  list-style: none;
+}
+
+/* Utilitários */
+.btn {
+  text-decoration: none;
+  background: var(--white);
+  color: var(--dark-blue);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  display: inline-block;
+}
+
+.btn:hover {
+  background: var(--dark-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+}
