@@ -3,18 +3,21 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "expo-router/entry",
   "scripts": {
-    "dev": "vite",
+    "dev": "expo start --web",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/react-router-dom": "^5.3.3",
     "axios": "^1.12.2",
+    "expo": "54.0.12",
+    "expo-router": "^6.0.10",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.9.3"
+    "react-native": "0.81.4",
+    "react-native-web": "^0.21.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

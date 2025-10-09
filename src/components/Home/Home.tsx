@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'expo-router';
 import { scoreService } from '../../service/score.service';
 import type { RankingUser } from '../../types';
 import './Home.css';
@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     <div className="home-container">
       <header>
         <nav>
-          <Link to="/login" className="btn">Login</Link>
+          <Link href="/login" className="btn">Login</Link>
         </nav>
       </header>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useRouter } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { quizService } from '../../service/quiz.service';
 import { scoreService } from '../../service/score.service';
@@ -18,18 +18,19 @@ const Quiz: React.FC = () => {
   const [message, setMessage] = useState('');
 
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const QUESTION_LIMIT = 10;
 
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      // navigate('/login');
+      router.replace('/login');
       return;
     }
     loadQuestions();
     loadRanking();
-  }, [user, navigate]);
+  }, [user, router]);
 
   const loadQuestions = async () => {
     try {
@@ -155,7 +156,8 @@ const Quiz: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    // navigate('/login');
+    router.replace('/login');
   };
 
   if (loading) {
@@ -182,7 +184,7 @@ const Quiz: React.FC = () => {
         <button className="logout-btn" onClick={handleLogout}>
           Sair
         </button>
-        <Link to="/" className="home-btn">
+        <Link href="/" className="home-btn">
           Home
         </Link>
       </div>
@@ -194,7 +196,7 @@ const Quiz: React.FC = () => {
       {!isFinished ? (
         <div id="quiz">
           <div id="contador">
-            Questão {currentQuestionIndex + 1} de {QUESTION_LIMIT}
+            Questão {currentQuestionIndex + 1} de {questions.length}
           </div>
           
           <div id="questao">{currentQuestion.enunciado}</div>

@@ -1,222 +1,187 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { useTheme } from '../../context/ThemeContext';
-import { loginService, cadastroService } from '../../service/login.service';
-import type { LoginData, RegisterData } from '../../types';
+import { useRouter } from 'expo-router';
 import './Login.css';
+import { loginService, cadastroService } from '../../service/login.service';
+import { useAuth } from '../../context/AuthContext';
+import type { LoginData, RegisterData, User } from '../../types';
 
 const Login: React.FC = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
-const [loginData, setLoginData] = useState<LoginData>({ email: '', senha: '' });
-  const [registerData, setRegisterData] = useState<RegisterData>({
-    nome: '',
-    email: '',
-    senha: '',
-    senhaConfirmacao: ''
-  });
+  const [isLogin, setIsLogin] = useState(true);
 
+  const [emailLogin, setEmailLogin] = useState('');
+  const [senhaLogin, setSenhaLogin] = useState('');
+  const [showSenhaLogin, setShowSenhaLogin] = useState(false);
+
+  const [nomeCadastro, setNomeCadastro] = useState('');
+  const [emailCadastro, setEmailCadastro] = useState('');
+  const [senhaCadastro, setSenhaCadastro] = useState('');
+  const [confirmSenha, setConfirmSenha] = useState('');
+  const [showSenhaCadastro, setShowSenhaCadastro] = useState(false);
+  const [showConfirmSenha, setShowConfirmSenha] = useState(false);
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$/;
+
+  const router = useRouter();
   const { login } = useAuth();
-  const { toggleTheme } = useTheme();
-  const navigate = useNavigate();
 
-  const handleLoginSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!loginData.email || !loginData.senha) {
-      alert('Preencha todos os campos!');
+  const handleLogin = async () => {
+    if (!emailLogin || !senhaLogin) {
+      window.alert('Atenção: Preencha todos os campos!');
       return;
     }
-
-    const emailRegex = /^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-
-    if (!emailRegex.test(loginData.email)) {
-      alert('Digite um e-mail válido contendo @ e domínio.');
+    if (!emailRegex.test(emailLogin)) {
+      window.alert('Erro: Digite um e-mail válido contendo @ e domínio.');
       return;
     }
-
-    if (!senhaRegex.test(loginData.senha)) {
-      alert('A senha deve ter 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.');
+    if (!senhaRegex.test(senhaLogin)) {
+      window.alert('Erro: A senha deve ter 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.');
       return;
     }
 
     try {
-      const userData = await loginService.login(loginData);
-      login(userData);
-
-      if (userData.tipo === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/quiz');
-      }
+      const payload: LoginData = { email: emailLogin, senha: senhaLogin };
+      const user: User = await loginService.login(payload);
+      login(user);
+      window.alert('Sucesso: Login realizado!');
+      router.replace(user.tipo === 'admin' ? '/admin' : '/quiz');
     } catch (error: any) {
-      console.error('Erro ao fazer login:', error);
-      if (error.response?.status === 401) {
-        alert('Email ou senha incorretos.');
-      } else if (error.response?.status === 403) {
-        alert('Acesso negado.');
-      } else {
-        alert('Erro ao tentar fazer login. Tente novamente mais tarde.');
-      }
+      console.error(error);
+      window.alert('Erro: Falha no login. Tente novamente mais tarde.');
     }
   };
 
-  const handleRegisterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const { nome, email, senha, senhaConfirmacao } = registerData;
-
-    if (!nome || !email || !senha || !senhaConfirmacao) {
-      alert('Todos os campos são obrigatórios');
+  const handleCadastro = async () => {
+    if (!nomeCadastro || !emailCadastro || !senhaCadastro || !confirmSenha) {
+      window.alert('Atenção: Preencha todos os campos!');
       return;
     }
-
-    const emailRegex = /^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-    const nomeRegex = /^[a-zA-Z\s]{3,15}$/;
-
-    if (!nomeRegex.test(nome)) {
-      alert('O nome deve ter entre 3 e 15 caracteres e conter apenas letras.');
+    if (senhaCadastro !== confirmSenha) {
+      window.alert('Erro: As senhas não coincidem.');
       return;
     }
-
-    if (!emailRegex.test(email)) {
-      alert('Digite um e-mail válido contendo @ e domínio.');
+    if (!emailRegex.test(emailCadastro)) {
+      window.alert('Erro: Digite um e-mail válido contendo @ e domínio.');
       return;
     }
-
-    if (!senhaRegex.test(senha)) {
-      alert('A senha deve ter 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.');
-      return;
-    }
-
-    if (senha !== senhaConfirmacao) {
-      alert('As senhas não coincidem.');
+    if (!senhaRegex.test(senhaCadastro)) {
+      window.alert('Erro: A senha deve ter 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.');
       return;
     }
 
     try {
-      await cadastroService.register({ nome, email, senha, senhaConfirmacao });
-      alert('Usuário cadastrado com sucesso! Faça login para continuar.');
-      setIsSignUp(false);
-      setRegisterData({ nome: '', email: '', senha: '', senhaConfirmacao: '' });
+      const payload: RegisterData = {
+        nome: nomeCadastro,
+        email: emailCadastro,
+        senha: senhaCadastro,
+        senhaConfirmacao: confirmSenha,
+      };
+      await cadastroService.register(payload);
+      window.alert('Sucesso: Cadastro realizado com sucesso!');
+      setIsLogin(true);
     } catch (error: any) {
-      console.error('Erro ao cadastrar:', error);
-      if (error.response?.status === 409) {
-        alert('Este email já está cadastrado.');
-      } else {
-        alert('Erro ao cadastrar usuário. Tente novamente mais tarde.');
-      }
+      console.error(error);
+      window.alert('Erro: Erro ao tentar cadastrar. Tente novamente mais tarde.');
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-logo-container">
-        <img src="/imagens/icone.png" alt="Ícone Quiz" className="logo" />
-      </div>
+    <div className="login-container">
+      <div className="card">
+        {isLogin ? (
+          <>
+            <h2 className="title">Entrar</h2>
 
-      <button className="theme-toggle" onClick={toggleTheme}>
-        <img 
-          src="https://cdn-icons-png.freepik.com/256/544/544209.png" 
-          width="20" 
-          height="20" 
-          alt="Toggle theme" 
-        />
-      </button>
-
-      <button
-        className="close-modal"
-        aria-label="Fechar modal"
-        onClick={() => navigate('/')}
-      >
-        ×
-      </button>
-
-      <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="main">
-        <div className="sign-up">
-          <form onSubmit={handleRegisterSubmit}>
-            <h1>Criar uma conta</h1>
-            
             <input
-              type="text"
-              placeholder="Digite seu nome de usuário"
-              value={registerData.nome}
-              onChange={(e) => setRegisterData({ ...registerData, nome: e.target.value })}
-              required
-            />
-            
-            <input
-              type="email"
+              className="input"
               placeholder="Digite seu email"
-              value={registerData.email}
-              onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
-              required
-            />
-
-            <input
-              type="password"
-              placeholder="Digite sua senha"
-              value={registerData.senha}
-              onChange={(e) => setRegisterData({ ...registerData, senha: e.target.value })}
-              required
-            />
-
-            <input
-              type="password"
-              placeholder="Confirme sua senha"
-              value={registerData.senhaConfirmacao}
-              onChange={(e) => setRegisterData({ ...registerData, senhaConfirmacao: e.target.value })}
-              required
-            />
-
-            <button type="submit">Cadastrar</button>
-          </form>
-        </div>
-
-        <div className="sign-in">
-          <form onSubmit={handleLoginSubmit}>
-            <h1>Entrar</h1>
-            
-            <input
+              value={emailLogin}
+              onChange={(e) => setEmailLogin(e.target.value)}
               type="email"
-              placeholder="Email"
-              value={loginData.email}
-              onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-              required
             />
-            
+
+            <div className="input-wrapper">
+              <input
+                className="input-password"
+                placeholder="Digite sua senha"
+                value={senhaLogin}
+                onChange={(e) => setSenhaLogin(e.target.value)}
+                type={showSenhaLogin ? 'text' : 'password'}
+              />
+              <button onClick={() => setShowSenhaLogin(!showSenhaLogin)} className="eye-button">
+                {showSenhaLogin ? 'Ocultar' : 'Mostrar'}
+              </button>
+            </div>
+
+            <button className="button" onClick={handleLogin}>
+              <span className="button-text">Entrar</span>
+            </button>
+
+            <button
+              className="switch-button"
+              onClick={() => setIsLogin(false)}
+            >
+              <span className="link">Criar uma conta</span>
+            </button>
+          </>
+        ) : (
+          <>
+            <h2 className="title">Criar uma conta</h2>
+
             <input
-              type="password"
-              placeholder="Senha"
-              value={loginData.senha}
-              onChange={(e) => setLoginData({ ...loginData, senha: e.target.value })}
-              required
+              className="input"
+              placeholder="Digite seu nome"
+              value={nomeCadastro}
+              onChange={(e) => setNomeCadastro(e.target.value)}
+              type="text"
             />
 
-            <button type="submit">Entrar</button>
-          </form>
-        </div>
+            <input
+              className="input"
+              placeholder="Digite seu email"
+              value={emailCadastro}
+              onChange={(e) => setEmailCadastro(e.target.value)}
+              type="email"
+            />
 
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left">
-              <h1>Bem-vindo de volta!</h1>
-              <p>Para se manter conectado conosco, faça login com suas informações pessoais</p>
-              <button className="ghost" onClick={() => setIsSignUp(false)}>
-                Entrar
+            <div className="input-wrapper">
+              <input
+                className="input-password"
+                placeholder="Digite sua senha"
+                value={senhaCadastro}
+                onChange={(e) => setSenhaCadastro(e.target.value)}
+                type={showSenhaCadastro ? 'text' : 'password'}
+              />
+              <button onClick={() => setShowSenhaCadastro(!showSenhaCadastro)} className="eye-button">
+                {showSenhaCadastro ? 'Ocultar' : 'Mostrar'}
               </button>
             </div>
-            <div className="overlay-panel overlay-right">
-              <h1>Olá, Amigo!</h1>
-              <p>Insira seus dados pessoais e comece sua jornada conosco</p>
-              <button className="ghost" onClick={() => setIsSignUp(true)}>
-                Cadastrar
+
+            <div className="input-wrapper">
+              <input
+                className="input-password"
+                placeholder="Confirme sua senha"
+                value={confirmSenha}
+                onChange={(e) => setConfirmSenha(e.target.value)}
+                type={showConfirmSenha ? 'text' : 'password'}
+              />
+              <button onClick={() => setShowConfirmSenha(!showConfirmSenha)} className="eye-button">
+                {showConfirmSenha ? 'Ocultar' : 'Mostrar'}
               </button>
             </div>
-          </div>
-        </div>
+
+            <button className="button" onClick={handleCadastro}>
+              <span className="button-text">Cadastrar</span>
+            </button>
+
+            <button
+              className="switch-button"
+              onClick={() => setIsLogin(true)}
+            >
+              <span className="link">Já tenho conta</span>
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
