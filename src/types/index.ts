@@ -2,7 +2,7 @@ export interface User {
   id_user: number;
   nome: string;
   email: string;
-  tipo: string;
+  funcao: string;
 }
 
 export interface Question {
