@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRouter } from 'expo-router';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { loginService, cadastroService } from '../../service/login.service';
 import { useAuth } from '../../context/AuthContext';
@@ -22,7 +22,7 @@ const Login: React.FC = () => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$/;
 
-  const router = useRouter();
+  const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleLogin = async () => {
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
       const user: User = await loginService.login(payload);
       login(user);
       window.alert('Sucesso: Login realizado!');
-      router.replace(user.tipo === 'admin' ? '/admin' : '/quiz');
+      navigate(user.funcao == '2' ? '/admin' : '/quiz', { replace: true });
     } catch (error: any) {
       console.error(error);
       window.alert('Erro: Falha no login. Tente novamente mais tarde.');

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useRouter } from 'expo-router';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { quizService } from '../../service/quiz.service';
 import type { Question } from '../../types';
@@ -21,16 +21,15 @@ const Admin: React.FC = () => {
   const [message, setMessage] = useState('');
 
   const { user, logout } = useAuth();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || user.tipo !== 'admin') {
-      // navigate('/login');
-      router.replace('/login');
+    if (!user || user.funcao !== '2') {
+      navigate('/login', { replace: true });
       return;
     }
     loadQuestions();
-  }, [user, router]);
+  }, [user, navigate]);
 
   const loadQuestions = async () => {
     try {
@@ -144,8 +143,7 @@ const Admin: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    // navigate('/login');
-    router.replace('/login');
+    navigate('/login', { replace: true });
   };
 
   if (loading) {
@@ -162,7 +160,7 @@ const Admin: React.FC = () => {
         <button className="logout-btn" onClick={handleLogout}>
           Sair
         </button>
-        <Link href="/" className="home-btn">
+        <Link to="/" className="home-btn">
           Home
         </Link>
       </div>

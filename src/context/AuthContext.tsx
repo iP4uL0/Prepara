@@ -25,14 +25,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const storedUserId = localStorage.getItem('id_user');
     const storedEmail = localStorage.getItem('email');
     const storedNome = localStorage.getItem('nome');
-    const storedTipo = localStorage.getItem('tipo');
+    const storedFuncao = localStorage.getItem('funcao');
 
     if (storedUserId && storedEmail && storedNome) {
       setUser({
         id_user: parseInt(storedUserId),
         email: storedEmail,
         nome: storedNome,
-        tipo: storedTipo || 'user'
+        funcao: storedFuncao || '1'
       });
     }
     setLoading(false);
@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('id_user', userData.id_user.toString());
     localStorage.setItem('email', userData.email);
     localStorage.setItem('nome', userData.nome);
-    localStorage.setItem('tipo', userData.tipo);
+    localStorage.setItem('funcao', userData.funcao);
   };
 
   const logout = () => {
@@ -51,11 +51,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem('id_user');
     localStorage.removeItem('email');
     localStorage.removeItem('nome');
-    localStorage.removeItem('tipo');
+    localStorage.removeItem('funcao');
   };
 
   const isAuthenticated = !!user;
-  const isAdmin = user?.tipo === 'admin';
+  const isAdmin = user?.funcao === '2';
 
   return (
     <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isAdmin, loading }}>
