@@ -44,16 +44,16 @@ const Home: React.FC = () => {
       <main className="home-main">
         {/* --- Banner grande --- */}
         <section className="banner-wrap">
+          <div className="banner-overlay">
+            <h1>Alcance seus objetivos acadêmicos com o</h1>
+            <h2>PreparaVest!</h2>
+          </div>
           <div className="banner-card">
             <img
-              src="/assets/BannerPrincipal.jpeg"
+              src="../../../imagens/BannerPrincipal.jpeg"
               alt="Banner Preparavest"
               className="banner-image"
             />
-            <div className="banner-overlay">
-              <h1>Alcance seus objetivos acadêmicos com o</h1>
-              <h2>PreparaVest!</h2>
-            </div>
           </div>
         </section>
 

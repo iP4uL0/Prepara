@@ -216,6 +216,10 @@
   align-items: flex-start;
   box-shadow: 0 6px 14px rgba(0,0,0,0.06);
 }
+
+.tip-card p {
+  color: #333;
+}
 .tip-star {
   font-size: 20px;
   color: #ffb300;
@@ -252,6 +256,11 @@
   padding: 12px;
   margin-bottom: 10px;
   text-align: center;
+}
+.ranking-section{
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
 }
 .nome-container {
   display: block;
