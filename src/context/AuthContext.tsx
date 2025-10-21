@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, } from 'react';
-import type { User } from '../types';
+// AuthContext.tsx (Atualizado)
+
+import React, { createContext, useContext, useState, useEffect } from "react";
+import type { User } from "../types";
 
 interface AuthContextType {
   user: User | null;
@@ -21,44 +23,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar se há dados do usuário no localStorage
-    const storedUserId = localStorage.getItem('id_user');
-    const storedEmail = localStorage.getItem('email');
-    const storedNome = localStorage.getItem('nome');
-    const storedFuncao = localStorage.getItem('funcao');
+    // A verificação é executada apenas uma vez quando o componente é montado
+    try {
+      // MUDANÇA 1: Ler o objeto 'user' como uma única string do localStorage
+      const storedUser = localStorage.getItem("user");
 
-    if (storedUserId && storedEmail && storedNome) {
-      setUser({
-        id_user: parseInt(storedUserId),
-        email: storedEmail,
-        nome: storedNome,
-        funcao: storedFuncao || '1'
-      });
+      if (storedUser) {
+        // Se existir, converte a string JSON de volta para um objeto
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (error) {
+      console.error(
+        "Falha ao analisar os dados do usuário do localStorage",
+        error
+      );
+      // Garante que o storage seja limpo se os dados estiverem corrompidos
+      localStorage.removeItem("user");
     }
+
+    // Define o carregamento como falso após a verificação
     setLoading(false);
   }, []);
 
   const login = (userData: User) => {
     setUser(userData);
-    localStorage.setItem('id_user', userData.id_user.toString());
-    localStorage.setItem('email', userData.email);
-    localStorage.setItem('nome', userData.nome);
-    localStorage.setItem('funcao', userData.funcao);
+    // MUDANÇA 2: Armazena o objeto de usuário inteiro como uma única string JSON
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('id_user');
-    localStorage.removeItem('email');
-    localStorage.removeItem('nome');
-    localStorage.removeItem('funcao');
+    // MUDANÇA 3: Remove apenas o item 'user' do localStorage
+    localStorage.removeItem("user");
   };
 
   const isAuthenticated = !!user;
-  const isAdmin = user?.funcao === '2';
+  const isAdmin = user?.funcao === "2";
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isAdmin, loading }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, isAuthenticated, isAdmin, loading }}>
       {children}
     </AuthContext.Provider>
   );
@@ -67,7 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
