@@ -9,11 +9,12 @@
   font-family: 'Open Sans', Arial, sans-serif;
   position: relative;
   overflow-x: hidden;
+  padding-bottom: 50px;
+
 }
 
 .title {
   text-align: center;
-  margin-top: 125px;
   font-size: 21px;
   color: #fff;
 }
@@ -94,7 +95,6 @@
 #quiz {
   max-width: 700px;
   margin: 0 auto;
-  margin-top: 50px;
   padding: 30px;
   border-radius: 20px;
   background-color: #005f99;
@@ -115,15 +115,13 @@
 #questao {
   text-align: center;
   font-size: 20px;
-  margin: 20px;
-  margin-bottom: 20px;
+
 }
 
 #opcoes {
   display: block;
   text-align: left;
   margin-top: 10px;
-  margin-bottom: 20px;
 }
 
 #opcoes label {
@@ -131,9 +129,8 @@
   align-items: center;
   font-size: 18px;
   color: white;
-  margin-bottom: 10px;
   cursor: pointer;
-  padding: 8px;
+  padding: 3px;
   border-radius: 5px;
   transition: background-color 0.2s;
 }
@@ -169,10 +166,10 @@
 }
 
 .quiz-buttons {
+  margin-top: 35px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 45px;
   position: relative;
 }
 
@@ -252,7 +249,7 @@
   color: #fff;
   border-radius: 12px;
   padding: 15px;
-  width: 280px;
+  width: 21%;
   min-height: 280px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   display: flex;

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { loginService, cadastroService } from '../../service/login.service';
 import { useAuth } from '../../context/AuthContext';
 import type { LoginData, RegisterData, User } from '../../types';
 
 const Login: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isRightPanelActive, setIsRightPanelActive] = useState(false);
 
   const [emailLogin, setEmailLogin] = useState('');
   const [senhaLogin, setSenhaLogin] = useState('');
@@ -19,25 +20,17 @@ const Login: React.FC = () => {
   const [showSenhaCadastro, setShowSenhaCadastro] = useState(false);
   const [showConfirmSenha, setShowConfirmSenha] = useState(false);
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$/;
-
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$/;
+
   const handleLogin = async () => {
-    if (!emailLogin || !senhaLogin) {
-      window.alert('Atenção: Preencha todos os campos!');
-      return;
-    }
-    if (!emailRegex.test(emailLogin)) {
-      window.alert('Erro: Digite um e-mail válido contendo @ e domínio.');
-      return;
-    }
-    if (!senhaRegex.test(senhaLogin)) {
-      window.alert('Erro: A senha deve ter 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.');
-      return;
-    }
+    if (!emailLogin || !senhaLogin) return window.alert('Preencha todos os campos!');
+    if (!emailRegex.test(emailLogin)) return window.alert('E-mail inválido.');
+    if (!senhaRegex.test(senhaLogin))
+      return window.alert('A senha deve conter maiúsculas, minúsculas, número e símbolo.');
 
     try {
       const payload: LoginData = { email: emailLogin, senha: senhaLogin };
@@ -52,22 +45,12 @@ const Login: React.FC = () => {
   };
 
   const handleCadastro = async () => {
-    if (!nomeCadastro || !emailCadastro || !senhaCadastro || !confirmSenha) {
-      window.alert('Atenção: Preencha todos os campos!');
-      return;
-    }
-    if (senhaCadastro !== confirmSenha) {
-      window.alert('Erro: As senhas não coincidem.');
-      return;
-    }
-    if (!emailRegex.test(emailCadastro)) {
-      window.alert('Erro: Digite um e-mail válido contendo @ e domínio.');
-      return;
-    }
-    if (!senhaRegex.test(senhaCadastro)) {
-      window.alert('Erro: A senha deve ter 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.');
-      return;
-    }
+    if (!nomeCadastro || !emailCadastro || !senhaCadastro || !confirmSenha)
+      return window.alert('Preencha todos os campos!');
+    if (senhaCadastro !== confirmSenha) return window.alert('As senhas não coincidem.');
+    if (!emailRegex.test(emailCadastro)) return window.alert('E-mail inválido.');
+    if (!senhaRegex.test(senhaCadastro))
+      return window.alert('A senha deve conter maiúsculas, minúsculas, número e símbolo.');
 
     try {
       const payload: RegisterData = {
@@ -77,111 +60,119 @@ const Login: React.FC = () => {
         senhaConfirmacao: confirmSenha,
       };
       await cadastroService.register(payload);
-      window.alert('Sucesso: Cadastro realizado com sucesso!');
-      setIsLogin(true);
-    } catch (error: any) {
-      console.error(error);
-      window.alert('Erro: Erro ao tentar cadastrar. Tente novamente mais tarde.');
+      window.alert('Cadastro realizado!');
+      setIsRightPanelActive(false);
+    } catch {
+      window.alert('Erro ao cadastrar.');
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="card">
-        {isLogin ? (
-          <>
-            <h2 className="title">Entrar</h2>
-
+    <div className={`auth-container ${isRightPanelActive ? 'right-panel-active' : ''}`}>
+      {/* Painel de Login */}
+      <div className="form-container sign-in-container">
+        <div className="form-content">
+          <h2>Entrar</h2>
+          <input
+            type="email"
+            placeholder="Digite seu email"
+            value={emailLogin}
+            onChange={(e) => setEmailLogin(e.target.value)}
+          />
+          <div className="input-wrapper">
             <input
-              className="input"
-              placeholder="Digite seu email"
-              value={emailLogin}
-              onChange={(e) => setEmailLogin(e.target.value)}
-              type="email"
+              type={showSenhaLogin ? 'text' : 'password'}
+              placeholder="Digite sua senha"
+              value={senhaLogin}
+              onChange={(e) => setSenhaLogin(e.target.value)}
             />
-
-            <div className="input-wrapper">
-              <input
-                className="input-password"
-                placeholder="Digite sua senha"
-                value={senhaLogin}
-                onChange={(e) => setSenhaLogin(e.target.value)}
-                type={showSenhaLogin ? 'text' : 'password'}
-              />
-              <button onClick={() => setShowSenhaLogin(!showSenhaLogin)} className="eye-button">
-                {showSenhaLogin ? 'Ocultar' : 'Mostrar'}
-              </button>
-            </div>
-
-            <button className="button" onClick={handleLogin}>
-              <span className="button-text">Entrar</span>
-            </button>
-
             <button
-              className="switch-button"
-              onClick={() => setIsLogin(false)}
+              type="button"
+              onClick={() => setShowSenhaLogin(!showSenhaLogin)}
+              className="eye-button"
             >
-              <span className="link">Criar uma conta</span>
+              {showSenhaLogin ? <FaEyeSlash /> : <FaEye />}
             </button>
-          </>
-        ) : (
-          <>
-            <h2 className="title">Criar uma conta</h2>
+          </div>
+          <button className="btn-primary" onClick={handleLogin}>
+            Entrar
+          </button>
+        </div>
+      </div>
 
+      {/* Painel de Cadastro */}
+      <div className="form-container sign-up-container">
+        <div className="form-content">
+          <h2>Criar uma conta</h2>
+          <input
+            type="text"
+            placeholder="Digite seu nome"
+            value={nomeCadastro}
+            onChange={(e) => setNomeCadastro(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Digite seu email"
+            value={emailCadastro}
+            onChange={(e) => setEmailCadastro(e.target.value)}
+          />
+          <div className="input-wrapper">
             <input
-              className="input"
-              placeholder="Digite seu nome"
-              value={nomeCadastro}
-              onChange={(e) => setNomeCadastro(e.target.value)}
-              type="text"
+              type={showSenhaCadastro ? 'text' : 'password'}
+              placeholder="Digite sua senha"
+              value={senhaCadastro}
+              onChange={(e) => setSenhaCadastro(e.target.value)}
             />
-
-            <input
-              className="input"
-              placeholder="Digite seu email"
-              value={emailCadastro}
-              onChange={(e) => setEmailCadastro(e.target.value)}
-              type="email"
-            />
-
-            <div className="input-wrapper">
-              <input
-                className="input-password"
-                placeholder="Digite sua senha"
-                value={senhaCadastro}
-                onChange={(e) => setSenhaCadastro(e.target.value)}
-                type={showSenhaCadastro ? 'text' : 'password'}
-              />
-              <button onClick={() => setShowSenhaCadastro(!showSenhaCadastro)} className="eye-button">
-                {showSenhaCadastro ? 'Ocultar' : 'Mostrar'}
-              </button>
-            </div>
-
-            <div className="input-wrapper">
-              <input
-                className="input-password"
-                placeholder="Confirme sua senha"
-                value={confirmSenha}
-                onChange={(e) => setConfirmSenha(e.target.value)}
-                type={showConfirmSenha ? 'text' : 'password'}
-              />
-              <button onClick={() => setShowConfirmSenha(!showConfirmSenha)} className="eye-button">
-                {showConfirmSenha ? 'Ocultar' : 'Mostrar'}
-              </button>
-            </div>
-
-            <button className="button" onClick={handleCadastro}>
-              <span className="button-text">Cadastrar</span>
-            </button>
-
             <button
-              className="switch-button"
-              onClick={() => setIsLogin(true)}
+              type="button"
+              onClick={() => setShowSenhaCadastro(!showSenhaCadastro)}
+              className="eye-button"
             >
-              <span className="link">Já tenho conta</span>
+              {showSenhaCadastro ? <FaEyeSlash /> : <FaEye />}
             </button>
-          </>
-        )}
+          </div>
+
+          <div className="input-wrapper">
+            <input
+              type={showConfirmSenha ? 'text' : 'password'}
+              placeholder="Confirme sua senha"
+              value={confirmSenha}
+              onChange={(e) => setConfirmSenha(e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmSenha(!showConfirmSenha)}
+              className="eye-button"
+            >
+              {showConfirmSenha ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
+          <button className="btn-primary" onClick={handleCadastro}>
+            Cadastrar
+          </button>
+        </div>
+      </div>
+
+      {/* Overlay animado */}
+      <div className="overlay-container">
+        <div className="overlay">
+          <div className="overlay-panel overlay-left">
+            <h1>Bem-vindo de volta!</h1>
+            <p>Já possui conta? Faça login para continuar.</p>
+            <button className="ghost" onClick={() => setIsRightPanelActive(false)}>
+              Entrar
+            </button>
+          </div>
+
+          <div className="overlay-panel overlay-right">
+            <h1>Olá amigo!</h1>
+            <p>Faça seu cadastro e comece sua jornada conosco.</p>
+            <button className="ghost" onClick={() => setIsRightPanelActive(true)}>
+              Criar conta
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
