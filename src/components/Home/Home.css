@@ -1,154 +1,296 @@
+/* Container geral */
 .home-container {
-  height: 100vh;
+  min-height: 100vh;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-/* ================== HEADER ================== */
-header {
+/* HEADER (login / nav) */
+.home-header {
   width: 100%;
-  padding: 20px 40px;
+  padding: 18px 40px;
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
+  box-sizing: border-box;
+}
+.home-nav .btn-login {
+  background: #00796b;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-/* ================== MAIN ================== */
-main {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 40px;
-  gap: 50px;
-}
-
-.title h1 {
-  font-size: 64px;
-  line-height: 1.2;
-  text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-  color: var(--light-gray);
-}
-
-.subtitle {
-  font-size: 18px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  max-width: 600px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-}
-
-/* ================== RANKING CARD ================== */
-.ranking {
-  background: rgba(0, 95, 153, 0.85);
-  backdrop-filter: blur(12px);
-  color: var(--white);
-  border-radius: 20px;
-  padding: 25px;
-  width: 300px;
-  min-height: 450px;
-  box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.ranking h2 {
-  font-size: 26px;
-  margin-bottom: 20px;
-  text-align: center;
-  font-weight: bold;
-}
-
-/* ================== LIST ================== */
-#ranking-list {
+/* MAIN */
+.home-main {
   width: 100%;
-}
-
-.ranking-item {
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 6px;
-  font-size: 18px;
-  padding: 12px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  min-height: 70px;
+}
+
+/* BANNER grande */
+.banner-wrap {
+  width: 100%;
+  margin: 10px 0 30px;
+  display: flex;
+  justify-content: center;
+}
+.banner-card {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  background: #fff;
+}
+.banner-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+.banner-overlay {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 12px;
   text-align: center;
+  background: rgba(255,255,255,0.6);
+  padding: 8px 20px;
+  border-radius: 8px;
+}
+.banner-overlay h1 {
+  margin: 0;
+  font-size: 18px;
+  color: #004d40;
+  font-weight: 700;
+}
+.banner-overlay h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #00796b;
+  font-weight: 900;
+}
+
+/* WELCOME / DESCRIÇÃO */
+.welcome {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.welcome-card {
+  width: 90%;
+  max-width: 900px;
+  background: #f1f8e9;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.welcome-card h3 {
+  margin: 0 0 8px 0;
+  color: #00796b;
+  font-size: 22px;
+}
+.welcome-card p {
+  margin: 0;
+  color: #004d40;
+  font-size: 15px;
+}
+
+/* NOSSOS CONTEÚDOS - 3 cards */
+.contents-section {
+  width: 100%;
+  margin: 30px 0;
+  text-align: center;
+}
+.contents-section h4 {
+  margin-bottom: 18px;
+  font-size: 18px;
+  color: #333;
+}
+.cards-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.content-card {
+  background: #eef7ee;
+  width: 220px;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  text-align: center;
+}
+.card-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+.content-card h5 {
+  margin: 6px 0;
+  font-size: 16px;
+  color: #33691e;
+}
+.content-card p {
+  margin: 0;
+  font-size: 13px;
+  color: #555;
+}
+
+/* ESTATÍSTICAS (fundo azul) */
+.stats-section {
+  width: 100%;
+  margin: 24px 0;
+  display: flex;
+  justify-content: center;
+}
+.stats-card {
+  width: 90%;
+  max-width: 800px;
+  background: #38b6ff;
+  color: #fff;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+  text-align: center;
+}
+.stats-card h4 {
+  margin: 0 0 14px 0;
+  font-weight: 700;
+}
+.stats-row {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.stat-box {
+  background: #fff;
+  color: #333;
+  border-radius: 8px;
+  padding: 16px;
+  width: 260px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+.stat-box strong {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+/* DICAS */
+.tips-section {
+  width: 100%;
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tips-section h4 {
+  margin-bottom: 12px;
+}
+.tips-row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  max-width: 900px;
+}
+.tip-card {
+  background: #f1f8e9;
+  border-radius: 10px;
+  padding: 16px;
+  width: 320px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+}
+
+.tip-card p {
+  color: #333;
+}
+.tip-star {
+  font-size: 20px;
+  color: #ffb300;
+}
+
+/* RANKING (última seção) */
+.ranking-section {
+  width: 100%;
+  margin: 30px 0 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ranking-section h4 {
+  margin-bottom: 14px;
+}
+.ranking-card {
+  width: 90%;
+  max-width: 500px;
+  background: linear-gradient(180deg, #3db0ff, #38b6ff);
+  color: #fff;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+}
+#ranking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ranking-item {
+  background: rgba(255,255,255,0.14);
+  border-radius: 8px;
+  padding: 12px;
   margin-bottom: 10px;
-  background: rgba(255, 255, 255, 0.1);
+  text-align: center;
 }
-
-.ranking-item:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+.ranking-section{
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
 }
-
 .nome-container {
-  font-weight: bold;
+  display: block;
+  font-weight: 700;
   font-size: 16px;
 }
-
 .pontuacao-container {
+  display: block;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.9);
+  margin-top: 6px;
+  color: rgba(255,255,255,0.95);
 }
-
 .pontos {
-  font-weight: bold;
-  color: #FFD700;
+  color: #ffd700;
+  font-weight: 800;
+  margin-left: 6px;
 }
 
-/* ================== RESPONSIVIDADE ================== */
-@media (max-width: 768px) {
-  main {
-    flex-direction: column;
-    gap: 30px;
-    padding: 20px;
-  }
-
-  .title h1 {
-    font-size: 48px;
-    text-align: center;
-  }
-
-  .subtitle {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .ranking {
-    width: 100%;
-    max-width: 400px;
-  }
-
-  header {
-    padding: 15px 20px;
-  }
+/* Responsividade */
+@media (max-width: 900px) {
+  .banner-image { height: 180px; }
+  .content-card { width: 45%; max-width: 260px; }
+  .tip-card { width: 48%; }
+  .stat-box { width: 100%; max-width: 420px; }
 }
 
-@media (max-width: 480px) {
-  .title h1 {
-    font-size: 36px;
-  }
-
-  .subtitle {
-    font-size: 14px;
-  }
-
-  .ranking {
-    padding: 20px;
-    min-height: 350px;
-  }
-
-  .ranking h2 {
-    font-size: 22px;
-  }
-
-  .ranking-item {
-    font-size: 16px;
-    min-height: 60px;
-  }
+@media (max-width: 520px) {
+  .banner-image { height: 140px; }
+  .content-card { width: 100%; }
+  .tip-card { width: 100%; }
+  .welcome-card { padding: 18px; }
+  .ranking-card { padding: 18px; }
 }
