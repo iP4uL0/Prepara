@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { quizService } from '../../service/quiz.service';
-import { scoreService } from '../../service/score.service';
-import type { Question, UserAnswer, RankingUser } from '../../types';
-import './Quiz.css';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { quizService } from "../../service/quiz.service";
+import { scoreService } from "../../service/score.service";
+import type { Question, UserAnswer, RankingUser } from "../../types";
+import "./Quiz.css";
 
 const Quiz: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
-  const [selectedAnswer, setSelectedAnswer] = useState<string>('');
+  const [selectedAnswer, setSelectedAnswer] = useState<string>("");
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [ranking, setRanking] = useState<RankingUser[]>([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -25,9 +25,10 @@ const Quiz: React.FC = () => {
   useEffect(() => {
     if (!user) {
       // navigate('/login');
-      navigate('/login', { replace: true });
+      navigate("/login", { replace: true });
       return;
     }
+
     loadQuestions();
     loadRanking();
   }, [user, navigate]);
@@ -40,11 +41,11 @@ const Quiz: React.FC = () => {
         const shuffled = data.sort(() => 0.5 - Math.random());
         setQuestions(shuffled.slice(0, QUESTION_LIMIT));
       } else {
-        setMessage('Nenhuma questão disponível.');
+        setMessage("Nenhuma questão disponível.");
       }
     } catch (error) {
-      console.error('Erro ao carregar questões:', error);
-      setMessage('Erro ao carregar questões.');
+      console.error("Erro ao carregar questões:", error);
+      setMessage("Erro ao carregar questões.");
     } finally {
       setLoading(false);
     }
@@ -60,7 +61,7 @@ const Quiz: React.FC = () => {
         setRanking(sortedRanking);
       }
     } catch (error) {
-      console.error('Erro ao carregar ranking:', error);
+      console.error("Erro ao carregar ranking:", error);
     }
   };
 
@@ -70,20 +71,20 @@ const Quiz: React.FC = () => {
 
   const handleNext = async () => {
     if (!selectedAnswer) {
-      alert('Por favor, selecione uma resposta.');
+      alert("Por favor, selecione uma resposta.");
       return;
     }
 
     const currentQuestion = questions[currentQuestionIndex];
     const newAnswer: UserAnswer = {
       id_quest: currentQuestion.id_quest,
-      resposta: selectedAnswer.replace('alt_', '')
+      resposta: selectedAnswer.replace("alt_", ""),
     };
 
     // Atualizar respostas do usuário
     const updatedAnswers = [...userAnswers];
     const existingAnswerIndex = updatedAnswers.findIndex(
-      answer => answer.id_quest === currentQuestion.id_quest
+      (answer) => answer.id_quest === currentQuestion.id_quest
     );
 
     if (existingAnswerIndex >= 0) {
@@ -102,9 +103,9 @@ const Quiz: React.FC = () => {
       // Restaurar resposta salva se existir
       const nextQuestion = questions[currentQuestionIndex + 1];
       const savedAnswer = updatedAnswers.find(
-        answer => answer.id_quest === nextQuestion.id_quest
+        (answer) => answer.id_quest === nextQuestion.id_quest
       );
-      setSelectedAnswer(savedAnswer ? `alt_${savedAnswer.resposta}` : '');
+      setSelectedAnswer(savedAnswer ? `alt_${savedAnswer.resposta}` : "");
     }
   };
 
@@ -114,17 +115,19 @@ const Quiz: React.FC = () => {
       // Restaurar resposta salva
       const prevQuestion = questions[currentQuestionIndex - 1];
       const savedAnswer = userAnswers.find(
-        answer => answer.id_quest === prevQuestion.id_quest
+        (answer) => answer.id_quest === prevQuestion.id_quest
       );
-      setSelectedAnswer(savedAnswer ? `alt_${savedAnswer.resposta}` : '');
+      setSelectedAnswer(savedAnswer ? `alt_${savedAnswer.resposta}` : "");
     }
   };
 
   const finishQuiz = async (answers: UserAnswer[]) => {
     let correctAnswers = 0;
 
-    answers.forEach(userAnswer => {
-      const question = questions.find(q => q.id_quest === userAnswer.id_quest);
+    answers.forEach((userAnswer) => {
+      const question = questions.find(
+        (q) => q.id_quest === userAnswer.id_quest
+      );
       if (question && question.correta === userAnswer.resposta) {
         correctAnswers++;
       }
@@ -139,7 +142,7 @@ const Quiz: React.FC = () => {
         await scoreService.submitScore(user.id_user, correctAnswers);
         await loadRanking(); // Recarregar ranking
       } catch (error) {
-        console.error('Erro ao enviar pontuação:', error);
+        console.error("Erro ao enviar pontuação:", error);
       }
     }
   };
@@ -147,17 +150,17 @@ const Quiz: React.FC = () => {
   const restartQuiz = () => {
     setCurrentQuestionIndex(0);
     setUserAnswers([]);
-    setSelectedAnswer('');
+    setSelectedAnswer("");
     setScore(0);
     setIsFinished(false);
-    setMessage('');
+    setMessage("");
     loadQuestions();
   };
 
   const handleLogout = () => {
     logout();
     // navigate('/login');
-    navigate('/login', { replace: true });
+    navigate("/login", { replace: true });
   };
 
   if (loading) {
@@ -167,7 +170,9 @@ const Quiz: React.FC = () => {
   if (questions.length === 0) {
     return (
       <div className="quiz-container">
-        <div className="message">{message || 'Nenhuma questão disponível.'}</div>
+        <div className="message">
+          {message || "Nenhuma questão disponível."}
+        </div>
       </div>
     );
   }
@@ -198,22 +203,25 @@ const Quiz: React.FC = () => {
           <div id="contador">
             Questão {currentQuestionIndex + 1} de {questions.length}
           </div>
-          
+
           <div id="questao">{currentQuestion.enunciado}</div>
-          
+
           <div id="opcoes">
-            {['alt_a', 'alt_b', 'alt_c', 'alt_d', 'alt_e'].map((option, index) => (
-              <label key={option}>
-                <input
-                  type="radio"
-                  name="resposta"
-                  value={option}
-                  checked={selectedAnswer === option}
-                  onChange={(e) => handleAnswerSelect(e.target.value)}
-                />
-                {String.fromCharCode(65 + index)}) {currentQuestion[option as keyof Question]}
-              </label>
-            ))}
+            {["alt_a", "alt_b", "alt_c", "alt_d", "alt_e"].map(
+              (option, index) => (
+                <label key={option}>
+                  <input
+                    type="radio"
+                    name="resposta"
+                    value={option}
+                    checked={selectedAnswer === option}
+                    onChange={(e) => handleAnswerSelect(e.target.value)}
+                  />
+                  {String.fromCharCode(65 + index)}){" "}
+                  {currentQuestion[option as keyof Question]}
+                </label>
+              )
+            )}
           </div>
 
           <div className="quiz-buttons">
@@ -221,12 +229,13 @@ const Quiz: React.FC = () => {
               type="button"
               id="voltar"
               onClick={handlePrevious}
-              style={{ display: currentQuestionIndex > 0 ? 'block' : 'none' }}
-            >
+              style={{ display: currentQuestionIndex > 0 ? "block" : "none" }}>
               ← Voltar
             </button>
             <button type="button" id="proximo" onClick={handleNext}>
-              {currentQuestionIndex === questions.length - 1 ? 'Finalizar' : 'Próximo →'}
+              {currentQuestionIndex === questions.length - 1
+                ? "Finalizar"
+                : "Próximo →"}
             </button>
           </div>
         </div>
