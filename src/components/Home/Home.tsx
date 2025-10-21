@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { scoreService } from "../../service/score.service";
 import type { RankingUser } from "../../types";
 import "./Home.css";
-
 const Home: React.FC = () => {
   const [ranking, setRanking] = useState<RankingUser[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadRanking();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadRanking = async () => {
@@ -31,13 +31,53 @@ const Home: React.FC = () => {
     }
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className="home-container">
       <header className="home-header">
         <nav className="home-nav">
-          <Link to="/login" className="btn-login">
-            Login
-          </Link>
+          <button className="hamburger-menu" onClick={toggleMenu} aria-label="Menu">
+            <span className="hamburger-icon">☰</span>
+          </button>
+          <div className={`menu-items ${isMenuOpen ? 'active' : ''}`}>
+            <Link to="/login" className="btn-login">
+              Login
+            </Link>
+
+            <div className="provas-buttons">
+              <a
+                href="/vest/UNESP2025_1fase_prova%20(1).pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="prova-btn"
+              >
+                UNESP 2025
+              </a>
+
+                <a
+                  href="/vest/enem2024-2_2dia_prova_amarelo.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="prova-btn"
+                >
+                  ENEM 2024
+                </a>
+
+                <a
+                  href="/vest/famerp2025_1dia_prova.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="prova-btn"
+                >
+                  FAMERP 2025
+                </a>
+            </div>
+          </div>
         </nav>
       </header>
 
@@ -68,8 +108,6 @@ const Home: React.FC = () => {
             </p>
           </div>
         </section>
-
-        {/* --- Nossos Conteúdos (3 cards) --- */}
         <section className="contents-section">
           <h4>Nossos Conteúdos</h4>
           <div className="cards-row">
@@ -88,6 +126,7 @@ const Home: React.FC = () => {
               <p>
                 Baixe e resolva provas anteriores de vestibulares renomados.
               </p>
+
             </article>
 
             <article className="content-card">
