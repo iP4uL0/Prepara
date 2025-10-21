@@ -5,6 +5,8 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { loginService, cadastroService } from '../../service/login.service';
 import { useAuth } from '../../context/AuthContext';
 import type { LoginData, RegisterData, User } from '../../types';
+import { useTheme } from '../../context/ThemeContext';
+
 
 const Login: React.FC = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -19,9 +21,12 @@ const Login: React.FC = () => {
   const [confirmSenha, setConfirmSenha] = useState('');
   const [showSenhaCadastro, setShowSenhaCadastro] = useState(false);
   const [showConfirmSenha, setShowConfirmSenha] = useState(false);
+  const { toggleTheme, isDarkMode } = useTheme()
+ 
 
   const navigate = useNavigate();
   const { login } = useAuth();
+
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$/;
@@ -69,6 +74,10 @@ const Login: React.FC = () => {
 
   return (
     <div className={`auth-container ${isRightPanelActive ? 'right-panel-active' : ''}`}>
+      <div><button id='MudarTema'
+      onClick={toggleTheme}><img src={isDarkMode
+        ? "https://cdn-icons-png.freepik.com/256/6714/6714978.png?semt=ais_hybrid"  : "https://cdn-icons-png.freepik.com/256/544/544209.png?semt=ais_hybrid"}
+      alt =''/></button></div>
       {/* Painel de Login */}
       <div className="form-container sign-in-container">
         <div className="form-content">

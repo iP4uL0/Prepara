@@ -39,6 +39,7 @@ body.dark-theme {
   color: var(--text-light);
 }
 
+
 #root {
   min-height: 100vh;
   display: flex;
