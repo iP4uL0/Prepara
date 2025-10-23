@@ -24,7 +24,6 @@ const Quiz: React.FC = () => {
 
   useEffect(() => {
     if (!user) {
-      // navigate('/login');
       navigate("/login", { replace: true });
       return;
     }
@@ -37,7 +36,6 @@ const Quiz: React.FC = () => {
     try {
       const data = await quizService.getQuestions();
       if (data && data.length > 0) {
-        // Embaralhar e pegar apenas o limite de questões
         const shuffled = data.sort(() => 0.5 - Math.random());
         setQuestions(shuffled.slice(0, QUESTION_LIMIT));
       } else {
@@ -81,7 +79,6 @@ const Quiz: React.FC = () => {
       resposta: selectedAnswer.replace("alt_", ""),
     };
 
-    // Atualizar respostas do usuário
     const updatedAnswers = [...userAnswers];
     const existingAnswerIndex = updatedAnswers.findIndex(
       (answer) => answer.id_quest === currentQuestion.id_quest
@@ -95,12 +92,10 @@ const Quiz: React.FC = () => {
 
     setUserAnswers(updatedAnswers);
 
-    // Verificar se é a última questão
     if (currentQuestionIndex === questions.length - 1) {
       await finishQuiz(updatedAnswers);
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      // Restaurar resposta salva se existir
       const nextQuestion = questions[currentQuestionIndex + 1];
       const savedAnswer = updatedAnswers.find(
         (answer) => answer.id_quest === nextQuestion.id_quest
@@ -112,7 +107,6 @@ const Quiz: React.FC = () => {
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
-      // Restaurar resposta salva
       const prevQuestion = questions[currentQuestionIndex - 1];
       const savedAnswer = userAnswers.find(
         (answer) => answer.id_quest === prevQuestion.id_quest
@@ -122,27 +116,28 @@ const Quiz: React.FC = () => {
   };
 
   const finishQuiz = async (answers: UserAnswer[]) => {
-    let correctAnswers = 0;
-
-    answers.forEach((userAnswer) => {
-      const question = questions.find(
-        (q) => q.id_quest === userAnswer.id_quest
-      );
-      if (question && question.correta === userAnswer.resposta) {
-        correctAnswers++;
-      }
-    });
-
-    setScore(correctAnswers);
     setIsFinished(true);
 
-    // Enviar pontuação para o servidor
     if (user) {
       try {
-        await scoreService.submitScore(user.id_user, correctAnswers);
-        await loadRanking(); // Recarregar ranking
+        // 🚀 Envia todas as respostas para o back-end
+        const response = await scoreService.submitAnswers(
+          user.id_user,
+          answers
+        );
+
+        if (response?.data?.acertosTentativa !== undefined) {
+          setScore(response.data.acertosTentativa);
+        } else {
+          console.warn("Resposta inesperada do servidor:", response.data);
+          setScore(0);
+        }
+
+        // Atualiza o ranking após o envio
+        await loadRanking();
       } catch (error) {
-        console.error("Erro ao enviar pontuação:", error);
+        console.error("Erro ao enviar respostas:", error);
+        setScore(0);
       }
     }
   };
@@ -159,7 +154,6 @@ const Quiz: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    // navigate('/login');
     navigate("/login", { replace: true });
   };
 
@@ -247,7 +241,7 @@ const Quiz: React.FC = () => {
               Você acertou {score} de {questions.length} questões!
             </div>
             <div className="score-percentage">
-              Pontuação: {Math.round((score / questions.length) * 100)}%
+              Pontuação: {((score / questions.length) * 100).toFixed(0)}%
             </div>
             <button type="button" id="reiniciar" onClick={restartQuiz}>
               Reiniciar Quiz

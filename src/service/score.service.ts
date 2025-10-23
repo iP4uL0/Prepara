@@ -7,11 +7,8 @@ export const scoreService = {
     return response.data;
   },
 
-  submitScore: async (userId: number, acertos: number): Promise<any> => {
-    const response = await api.post('/acertos', {
-      id_user: userId,
-      acertos: acertos,
-    });
-    return response.data;
+// 🆕 Nova função pra enviar respostas completas
+  async submitAnswers(id_user: number, respostas: any[]) {
+    return api.post("/perguntas/correcao", { id_user, respostas });
   },
-};
+};  

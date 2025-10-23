@@ -23,7 +23,7 @@ export const loginService = {
 
 export const cadastroService = {
   register: async (data: RegisterData): Promise<any> => {
-    const response = await api.post('/usuarios', data);
+    const response = await api.post('/usuario', data);
     return response.data;
   },
 };
