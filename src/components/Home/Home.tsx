@@ -50,31 +50,58 @@ const Home: React.FC = () => {
             </Link>
 
             <div className="provas-buttons">
-              <a
-                href="/vest/UNESP2025_1fase_prova%20(1).pdf"
+                <a
+                href="https://vestibular.brasilescola.uol.com.br/downloads/universidade-estadual-paulista.htm?utm_source=chatgpt.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="prova-btn"
               >
-                UNESP 2025
+                UNESP
               </a>
 
                 <a
-                  href="/vest/enem2024-2_2dia_prova_amarelo.pdf"
+                  href="https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos?utm_source=chatgpt.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="prova-btn"
                 >
-                  ENEM 2024
+                  ENEM 
                 </a>
 
                 <a
-                  href="/vest/famerp2025_1dia_prova.pdf"
+                  href="https://www.fuvest.br/acervo-vestibular"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="prova-btn"
                 >
-                  FAMERP 2025
+                  USP 
+                </a>
+              
+                <a
+                  href="https://vestibular.brasilescola.uol.com.br/downloads/universidade-estadual-campinas.htm?utm_source=chatgpt.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="prova-btn"
+                >
+                UNICAMP
+                </a>
+
+                <a
+                  href="https://vestibular.brasilescola.uol.com.br/downloads/universidade-estado-rio-janeiro-1.htm?utm_source=chatgpt.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="prova-btn"
+                >
+                UERJ
+                </a>
+
+                     <a
+                  href="https://vestibular.brasilescola.uol.com.br/downloads/universidade-estado-rio-janeiro-1.htm?utm_source=chatgpt.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="prova-btn"
+                >
+                UFPR
                 </a>
             </div>
           </div>
