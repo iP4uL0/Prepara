@@ -135,9 +135,7 @@
   transition: background-color 0.2s;
 }
 
-#opcoes label:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
+
 
 #opcoes input[type="radio"] {
   appearance: none;

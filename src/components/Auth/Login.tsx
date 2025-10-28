@@ -26,7 +26,8 @@ const Login: React.FC = () => {
   const { login } = useAuth();
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8}$/;
+  const senhaRegex =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/;
 
   const handleLogin = async () => {
     if (!emailLogin || !senhaLogin)
@@ -81,7 +82,8 @@ const Login: React.FC = () => {
       className={`auth-container ${
         isRightPanelActive ? "right-panel-active" : ""
       }`}>
-      <div>
+      {/* ✅ Barra superior com o botão de tema */}
+      <div className="top-bar">
         <button id="MudarTema" onClick={toggleTheme}>
           <img
             src={
@@ -89,10 +91,11 @@ const Login: React.FC = () => {
                 ? "https://cdn-icons-png.freepik.com/256/6714/6714978.png?semt=ais_hybrid"
                 : "https://cdn-icons-png.freepik.com/256/544/544209.png?semt=ais_hybrid"
             }
-            alt=""
+            alt="Mudar tema"
           />
         </button>
       </div>
+
       {/* Painel de Login */}
       <div className="form-container sign-in-container">
         <div className="form-content">

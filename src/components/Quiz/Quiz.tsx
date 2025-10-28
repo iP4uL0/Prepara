@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { quizService } from "../../service/quiz.service";
 import { scoreService } from "../../service/score.service";
@@ -120,7 +120,6 @@ const Quiz: React.FC = () => {
 
     if (user) {
       try {
-        // 🚀 Envia todas as respostas para o back-end
         const response = await scoreService.submitAnswers(
           user.id_user,
           answers
@@ -133,7 +132,6 @@ const Quiz: React.FC = () => {
           setScore(0);
         }
 
-        // Atualiza o ranking após o envio
         await loadRanking();
       } catch (error) {
         console.error("Erro ao enviar respostas:", error);
@@ -183,9 +181,6 @@ const Quiz: React.FC = () => {
         <button className="logout-btn" onClick={handleLogout}>
           Sair
         </button>
-        <Link to="/" className="home-btn">
-          Home
-        </Link>
       </div>
 
       <div className="title">
@@ -241,7 +236,7 @@ const Quiz: React.FC = () => {
               Você acertou {score} de {questions.length} questões!
             </div>
             <div className="score-percentage">
-              Pontuação: {((score / questions.length) * 100).toFixed(0)}%
+              Nota: {((score / questions.length) * 10).toFixed(1)}
             </div>
             <button type="button" id="reiniciar" onClick={restartQuiz}>
               Reiniciar Quiz

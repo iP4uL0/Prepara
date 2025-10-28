@@ -382,3 +382,164 @@
   .welcome-card { padding: 18px; }
   .ranking-card { padding: 18px; }
 }
+
+/* ======================================== */
+/* 🌙 TEMA ESCURO — PÁGINA HOME */
+/* ======================================== */
+
+body.dark-theme .home-container {
+  background: linear-gradient(135deg, var(--darkest-blue), var(--darker-blue));
+  color: var(--text-light);
+}
+
+body.dark-theme p,h4 {
+  color: #fff !important;
+}
+
+body.dark-theme .hamburger-icon {
+  color: var(--primary-blue);
+}
+
+body.dark-theme .menu-items {
+  background: #001f3f;
+  color: var(--text-light);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-theme .home-nav .btn-login {
+  background: linear-gradient(135deg, var(--light-blue), var(--primary-blue));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-theme .home-nav .btn-login:hover {
+  background: linear-gradient(135deg, #0090ff, #4c6fff);
+  transform: scale(1.05);
+}
+
+/* Banner */
+body.dark-theme .banner-card {
+  background: linear-gradient(145deg, #001f3f, #002a60);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-theme .banner-overlay {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .banner-overlay h1,
+body.dark-theme .banner-overlay h2 {
+  color: var(--text-light);
+}
+
+/* Seção de boas-vindas */
+body.dark-theme .welcome-card {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-light);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-theme .welcome-card h3 {
+  color: var(--primary-blue);
+}
+
+/* Cards de conteúdos */
+body.dark-theme .content-card {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-light);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  transition: background 0.3s, transform 0.2s;
+}
+
+body.dark-theme .content-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+}
+
+body.dark-theme .content-card h5 {
+  color: var(--primary-blue);
+}
+
+body.dark-theme .prova-btn {
+  background: linear-gradient(135deg, var(--light-blue), var(--primary-blue));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .prova-btn:hover {
+  background: linear-gradient(135deg, #0090ff, #4c6fff);
+}
+
+/* Estatísticas */
+body.dark-theme .stats-card {
+  background: linear-gradient(135deg, #003366, #005fa3);
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-theme .stat-box {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Dicas */
+body.dark-theme .tip-card {
+  background: rgba(242, 239, 239, 0.05);
+  color: var(--text-light);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+
+body.dark-theme .tip-star {
+  color: #ffd700;
+}
+
+/* Ranking */
+body.dark-theme .ranking-card {
+  background: linear-gradient(180deg, #002a60, #003d85);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .ranking-section h4 {
+  color: var(--primary-blue);
+  text-shadow: 0 0 8px rgba(43, 170, 255, 0.6);
+}
+
+body.dark-theme .ranking-item {
+  background: rgba(236, 231, 231, 0.08);
+  color: var(--text-light);
+}
+
+body.dark-theme .ranking-item:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+body.dark-theme .pontuacao-container {
+  color: var(--text-light);
+}
+
+body.dark-theme .pontos {
+  color: #FFD700;
+}
+
+/* Transições e responsividade */
+body.dark-theme a {
+  color: var(--primary-blue);
+  transition: color 0.3s;
+}
+
+body.dark-theme a:hover {
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  body.dark-theme .menu-items {
+    background: linear-gradient(145deg, #001f3f, #002a60);
+  }
+
+  body.dark-theme .banner-card {
+    background: linear-gradient(145deg, #00224d, #00376b);
+  }
+}

@@ -1,15 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,400italic');
 
 .auth-container {
-  position: relative;
   width: 100vw;
   height: 100vh;
-  background: #e8f5ff; /* tom claro de azul */
+  background: #e8f5ff;
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* empilha em coluna */
+  justify-content: flex-start; /* começa de cima */
   align-items: center;
-  overflow: hidden;
   font-family: 'Open Sans', Arial, sans-serif;
+  overflow: hidden;
+}
+
+.top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* empurra pro canto direito */
+  padding: 16px 24px;
 }
 
 .form-container {
@@ -207,6 +214,7 @@ input:focus {
   color: #fff;
   border-radius: 25px;
   padding: 10px 45px;
+  margin-top: 15px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -215,17 +223,29 @@ input:focus {
 .ghost:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
-#MudarTema, img {
-  position: absolute;
-  z-index: 11000;
-  top: 0;
-  left: 0   ;
-  border: solid 2px #000000;
-   width: 48px;
-  height: 48px;
+
+/* estilo do botão de tema */
+#MudarTema {
+  background: transparent;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+#MudarTema:hover {
+  transform: scale(1.1);
+}
+#MudarTema, img {
+  z-index: 11000;
+  top: 0;
+  left: 0;
+   width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
   cursor: pointer;
 }
 
@@ -249,27 +269,87 @@ input:focus {
   }
 }
 
-body.dark-theme {
-  background-color: #1e1e1e;
-  color: #ffffff;
-}
-
+/* ==== TEMA ESCURO ==== */
 body.dark-theme .auth-container {
-  background: #001C55;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  color: #e0e0e0;
 }
 
-body.dark-theme input {
-  background: #333;
-  color: #fff;
-  border: 1px solid #555;
+/* Top bar e botão de tema */
+body.dark-theme .top-bar {
+  background: transparent;
+}
+body.dark-theme #MudarTema img {
+  filter: brightness(0) invert(1);
 }
 
+/* Textos principais */
+body.dark-theme .form-content h2 {
+  color: #f5f5f5;
+}
+
+/* Campos de entrada */
+body.dark-theme input,
+body.dark-theme .input-wrapper input {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  color: #f1f1f1;
+}
+
+body.dark-theme input:focus,
+body.dark-theme .input-wrapper input:focus {
+  border-color: #2baaff;
+}
+
+/* Botão de mostrar senha */
+body.dark-theme .eye-button {
+  color: #aaa;
+}
+body.dark-theme .eye-button:hover {
+  color: #2baaff;
+}
+
+/* Botões principais */
 body.dark-theme .btn-primary {
-  background-color: #444;
+  background: linear-gradient(135deg, #2baaff, #005f99);
   color: #fff;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(43, 170, 255, 0.3);
 }
 
+body.dark-theme .btn-primary:hover {
+  background: linear-gradient(135deg, #5cb6f9, #0077cc);
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(43, 170, 255, 0.4);
+}
+
+/* Overlay azul no tema escuro */
 body.dark-theme .overlay {
-  background: linear-gradient(135deg, #444, #222);
+  background: linear-gradient(135deg, #001a33, #003366);
+}
+
+/* Painéis da overlay */
+body.dark-theme .overlay-panel {
+  color: #e0e0e0;
+}
+
+body.dark-theme .ghost {
+  border-color: #2baaff;
+  color: #2baaff;
+}
+
+body.dark-theme .ghost:hover {
+  background-color: rgba(43, 170, 255, 0.2);
+  color: #fff;
+}
+
+
+/* Input placeholder */
+body.dark-theme input::placeholder {
+  color: #999;
+}
+
+/* Botão de tema hover */
+body.dark-theme #MudarTema:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 5px #2baaff);
 }

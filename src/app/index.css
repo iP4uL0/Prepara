@@ -33,11 +33,6 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Tema escuro */
-body.dark-theme {
-  background: linear-gradient(135deg, var(--darkest-blue), var(--darker-blue));
-  color: var(--text-light);
-}
 
 
 #root {
@@ -81,14 +76,9 @@ button:focus-visible {
 }
 
 /* Tema escuro para botões */
-body.dark-theme button {
-  background-color: var(--light-blue);
-  color: var(--white);
-}
 
-body.dark-theme button:hover {
-  background-color: #3700B3;
-}
+
+
 
 /* Estilos para inputs */
 input, textarea, select {
