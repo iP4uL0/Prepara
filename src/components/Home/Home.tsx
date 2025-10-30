@@ -117,7 +117,7 @@ const Home: React.FC = () => {
           </div>
           <div className="banner-card">
             <img
-              src="../../../imagens/BannerPrincipal.jpeg"
+              src="../../../dist/imagens/BannerPrincipal.jpeg"
               alt="Banner Preparavest"
               className="banner-image"
             />
