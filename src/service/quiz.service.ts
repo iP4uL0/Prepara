@@ -6,6 +6,10 @@ export const quizService = {
     const response = await api.get('/perguntas');
     return response.data;
   },
+    getQuestionsCards: async (): Promise<Question[]> => {
+    const response = await api.get('/perguntas/Cards');
+    return response.data;
+  },
 
   createQuestion: async (question: Omit<Question, 'id_quest'>): Promise<Question> => {
     const response = await api.post('/perguntas', question);

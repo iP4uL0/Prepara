@@ -37,7 +37,7 @@ const Admin: React.FC = () => {
 
   const loadQuestions = async () => {
     try {
-      const data = await quizService.getQuestions();
+      const data = await quizService.getQuestionsCards();
       setQuestions(data || []);
     } catch (error) {
       console.error('Erro ao carregar questões:', error);
