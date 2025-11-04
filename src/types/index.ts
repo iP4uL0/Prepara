@@ -14,7 +14,7 @@ export interface Question {
   alt_d: string;
   alt_e: string;
   correta: string;
-  imagem?: string;
+  imagem?: string | null;
 }
 
 export interface UserAnswer {

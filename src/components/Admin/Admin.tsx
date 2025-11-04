@@ -5,6 +5,7 @@ import { quizService } from '../../service/quiz.service';
 import type { Question } from '../../types';
 import './Admin.css';
 
+
 const Admin: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
@@ -15,8 +16,11 @@ const Admin: React.FC = () => {
     alt_c: '',
     alt_d: '',
     alt_e: '',
-    correta: 'a'
-  });
+    correta: 'a',
+    imagem: null
+  }); 
+
+
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
 
@@ -85,7 +89,8 @@ const Admin: React.FC = () => {
         alt_c: '',
         alt_d: '',
         alt_e: '',
-        correta: 'a'
+        correta: 'a',
+        imagem: null
       });
       
       // Recarregar questões
@@ -108,7 +113,8 @@ const Admin: React.FC = () => {
       alt_c: question.alt_c,
       alt_d: question.alt_d,
       alt_e: question.alt_e,
-      correta: question.correta
+      correta: question.correta,
+      imagem: null
     });
     // Scroll para o formulário
     document.getElementById('question-form')?.scrollIntoView({ behavior: 'smooth' });
@@ -137,7 +143,8 @@ const Admin: React.FC = () => {
       alt_c: '',
       alt_d: '',
       alt_e: '',
-      correta: 'a'
+      correta: 'a',
+      imagem: null
     });
   };
 

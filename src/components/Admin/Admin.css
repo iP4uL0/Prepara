@@ -160,6 +160,7 @@
   font-size: 1rem;
   transition: border-color 0.3s;
   box-sizing: border-box;
+  
 }
 
 .form-group input:focus,
@@ -167,6 +168,10 @@
 .form-group select:focus {
   border-color: #007acc;
   outline: none;
+}
+
+option{
+  color: #000;
 }
 
 .form-group textarea {
